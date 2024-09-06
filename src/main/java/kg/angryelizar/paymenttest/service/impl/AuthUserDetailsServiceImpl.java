@@ -1,4 +1,4 @@
-package kg.angryelizar.paymenttest.service;
+package kg.angryelizar.paymenttest.service.impl;
 
 import kg.angryelizar.paymenttest.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

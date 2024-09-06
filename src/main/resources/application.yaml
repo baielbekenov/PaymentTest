@@ -11,3 +11,7 @@ spring:
       ddl-auto: validate
   liquibase:
     change-log: classpath:/db/changelog/master.yaml
+token:
+  signing:
+    key: 871228f50bce8e0f64a0a5ae486f697ccc6690ac1d13c1971b84b368abb048b6
+

@@ -11,6 +11,7 @@ import java.util.List;
 @Setter
 @ToString
 @RequiredArgsConstructor
+@Table(name = "accounts")
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,5 +22,6 @@ public class Account {
     private BigDecimal balance;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+    @ToString.Exclude
     private List<Transaction> transactions;
 }

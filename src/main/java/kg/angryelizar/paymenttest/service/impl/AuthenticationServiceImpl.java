@@ -30,8 +30,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = User.builder()
                 .username(requestDto.getUsername())
                 .phone(requestDto.getPhoneNumber())
-                .password(requestDto.getPassword())
+                .password(passwordEncoder.encode(requestDto.getPassword()))
                 .authority(authorityRepository.findByAuthority("FULL"))
+                .enabled(true)
                 .build();
         userService.create(user);
         return new JwtAuthenticationResponse(jwtService.generateToken(user));

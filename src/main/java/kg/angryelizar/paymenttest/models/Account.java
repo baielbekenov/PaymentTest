@@ -10,8 +10,10 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@Builder
 @RequiredArgsConstructor
 @Table(name = "accounts")
+@AllArgsConstructor
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

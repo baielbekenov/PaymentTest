@@ -1,10 +1,7 @@
 package kg.angryelizar.paymenttest.models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -13,8 +10,10 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
+@Builder
 @RequiredArgsConstructor
 @Table(name = "transactions")
+@AllArgsConstructor
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

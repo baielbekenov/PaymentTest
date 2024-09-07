@@ -18,11 +18,6 @@ import org.springframework.web.bind.annotation.*;
 public class MainController {
     private final AuthenticationService authenticationService;
 
-    @GetMapping
-    public String index(Authentication authentication) {
-        return "Hey!" + authentication.getPrincipal().toString();
-    }
-
     @Operation(summary = "Registration")
     @PostMapping("/register")
     public JwtAuthenticationResponse signUp(@RequestBody @Valid SignUpDto signUpDto) {

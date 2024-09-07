@@ -73,7 +73,7 @@ databaseChangeLog:
                     references: users(id)
               - column:
                   name: balance
-                  type: decimal
+                  type: decimal(10,1)
                   constraints:
                     nullable: false
         - createTable:
@@ -95,7 +95,7 @@ databaseChangeLog:
                     references: accounts(id)
               - column:
                   name: amount
-                  type: decimal
+                  type: decimal(10,1)
                   constraints:
                     nullable: false
               - column:

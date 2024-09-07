@@ -4,10 +4,13 @@ import kg.angryelizar.paymenttest.exceptions.ErrorResponseBody;
 import kg.angryelizar.paymenttest.exceptions.UserException;
 import kg.angryelizar.paymenttest.service.ErrorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.List;
 
 
 @RestControllerAdvice
@@ -26,5 +29,14 @@ public class GlobalExceptionHandler {
     @ResponseBody
     private ErrorResponseBody userException(UserException e) {
         return errorService.makeResponse(e);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseBody
+    private ErrorResponseBody badCredentialsException() {
+        return ErrorResponseBody.builder()
+                .title("Bad credentials")
+                .reasons(List.of("Login or password incorrect!"))
+                .build();
     }
 }

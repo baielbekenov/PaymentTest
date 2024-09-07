@@ -1,7 +1,6 @@
 package kg.angryelizar.paymenttest.config;
 
 
-import jakarta.security.auth.message.config.AuthConfig;
 import kg.angryelizar.paymenttest.service.UserService;
 import kg.angryelizar.paymenttest.service.impl.AuthUserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;

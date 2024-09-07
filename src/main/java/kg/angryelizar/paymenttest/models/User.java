@@ -1,10 +1,7 @@
 package kg.angryelizar.paymenttest.models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,10 +11,12 @@ import java.util.List;
 
 @Entity
 @Getter
+@Builder
 @Setter
 @ToString
 @RequiredArgsConstructor
 @Table(name = "users")
+@AllArgsConstructor
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

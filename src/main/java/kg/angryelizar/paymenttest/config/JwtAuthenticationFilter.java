@@ -9,6 +9,7 @@ import kg.angryelizar.paymenttest.service.impl.AuthUserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,7 +41,7 @@ public class JwtAuthenticationFilter  extends OncePerRequestFilter {
             UserDetails userDetails = authUserDetailsService.loadUserByUsername(username);
 
             if (Boolean.TRUE.equals(jwtService.isTokenValid(jwt, userDetails))) {
-                SecurityContextHolder contextHolder = SecurityContextHolder.createEmptyContext();
+                SecurityContext contextHolder = SecurityContextHolder.createEmptyContext();
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities()
                 );

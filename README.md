@@ -18,3 +18,4 @@ This project provides a simple API for user authentication and payment processin
 
 ## Documentation
 - API documentation is provided using Swagger. You can access it at `/swagger-ui/index.html` after running the application.
+- Default user data: login - +996708801562, password -  qwerty123451

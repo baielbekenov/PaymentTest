@@ -1,6 +1,8 @@
 package kg.angryelizar.paymenttest.service;
 
 import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -18,4 +20,6 @@ public interface JwtService {
     Date extractExpirationDate(String token);
     Claims extractAllClaimsFromToken(String token);
     Key getSigningKey();
+
+    String makeTokenInvalid(HttpServletRequest request, Authentication authentication);
 }

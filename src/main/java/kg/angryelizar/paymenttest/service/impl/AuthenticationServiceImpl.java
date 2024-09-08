@@ -27,6 +27,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthorityRepository authorityRepository;
     private final TransactionService transactionService;
     private final AccountService accountService;
+    private final SessionService sessionService;
 
 
     @Override
@@ -53,8 +54,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         account.setBalance(transaction.getAmount());
         accountService.createAccount(account);
         transactionService.createTransaction(transaction);
-
-        return new JwtAuthenticationResponse(jwtService.generateToken(user));
+        return authenticateAndSaveSession(registeredUser);
     }
 
     @Override
@@ -66,6 +66,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 )
         );
         User user = userService.getByPhone(requestDto.getPhoneNumber());
-        return new JwtAuthenticationResponse(jwtService.generateToken(user));
+        return authenticateAndSaveSession(user);
+    }
+
+    private JwtAuthenticationResponse authenticateAndSaveSession(User user) {
+        JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse(jwtService.generateToken(user));
+        sessionService.addSession(jwtAuthenticationResponse.getAccessToken(), user);
+        return jwtAuthenticationResponse;
     }
 }

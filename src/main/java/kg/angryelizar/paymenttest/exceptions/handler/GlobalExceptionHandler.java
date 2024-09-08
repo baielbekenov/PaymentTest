@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -44,6 +45,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AccountException.class)
     @ResponseBody
     private ErrorResponseBody accountException(AccountException e) {
+        return errorService.makeResponse(e);
+    }
+
+    @ExceptionHandler(IOException.class)
+    @ResponseBody
+    private ErrorResponseBody accountException(IOException e) {
         return errorService.makeResponse(e);
     }
 }

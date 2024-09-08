@@ -5,9 +5,14 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
+import kg.angryelizar.paymenttest.models.Session;
 import kg.angryelizar.paymenttest.models.User;
+import kg.angryelizar.paymenttest.repository.SessionRepository;
 import kg.angryelizar.paymenttest.service.JwtService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +23,9 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class JwtServiceImpl implements JwtService {
+    private final SessionRepository sessionRepository;
     @Value("${token.signing.key}")
     private String signingKey;
 
@@ -76,5 +83,15 @@ public class JwtServiceImpl implements JwtService {
     public Key getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(signingKey);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    @Override
+    public String makeTokenInvalid(HttpServletRequest request, Authentication authentication) {
+        String authHeader = request.getHeader("Authorization");
+        String bearerPrefix = "Bearer ";
+        String jwtToken = authHeader.substring(bearerPrefix.length());
+        Session session = sessionRepository.findByToken(jwtToken).get();
+        sessionRepository.delete(session);
+        return "Logout done successfully for token " + jwtToken;
     }
 }

@@ -2,17 +2,17 @@ package kg.angryelizar.paymenttest.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import kg.angryelizar.paymenttest.dto.JwtAuthenticationResponse;
 import kg.angryelizar.paymenttest.dto.SignInDto;
 import kg.angryelizar.paymenttest.dto.SignUpDto;
 import kg.angryelizar.paymenttest.service.AccountService;
 import kg.angryelizar.paymenttest.service.AuthenticationService;
+import kg.angryelizar.paymenttest.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import javax.security.auth.login.AccountException;
 
 @RestController
 @RequestMapping("/")
@@ -21,6 +21,7 @@ import javax.security.auth.login.AccountException;
 public class MainController {
     private final AuthenticationService authenticationService;
     private final AccountService accountService;
+    private final JwtService jwtService;
 
     @Operation(summary = "Remove 1.1 USD from user balance")
     @GetMapping("/payment")
@@ -38,6 +39,12 @@ public class MainController {
     @PostMapping("/login")
     public JwtAuthenticationResponse signIn(@RequestBody @Valid SignInDto signInDto) {
         return authenticationService.signIn(signInDto);
+    }
+
+    @Operation(summary = "Delete access token")
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request, Authentication authentication) {
+        return jwtService.makeTokenInvalid(request, authentication);
     }
 
 }

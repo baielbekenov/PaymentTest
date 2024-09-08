@@ -4,10 +4,15 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kg.angryelizar.paymenttest.exceptions.AccountException;
+import kg.angryelizar.paymenttest.models.Session;
+import kg.angryelizar.paymenttest.repository.SessionRepository;
 import kg.angryelizar.paymenttest.service.JwtService;
+import kg.angryelizar.paymenttest.service.SessionService;
 import kg.angryelizar.paymenttest.service.impl.AuthUserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +23,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -26,6 +32,7 @@ public class JwtAuthenticationFilter  extends OncePerRequestFilter {
     public static final String HEADER_NAME = "Authorization";
     private final AuthUserDetailsServiceImpl authUserDetailsService;
     private final JwtService jwtService;
+    private final SessionRepository sessionRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -35,6 +42,14 @@ public class JwtAuthenticationFilter  extends OncePerRequestFilter {
             return;
         }
         var jwt = authHeader.substring(BEARER_PREFIX.length());
+
+        Optional<Session> session = sessionRepository.findByToken(jwt);
+
+        if (session.isEmpty()) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized - your token is done!");
+            return;
+        }
+
         var username = jwtService.extractUsername(jwt);
 
         if (StringUtils.isNotEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {

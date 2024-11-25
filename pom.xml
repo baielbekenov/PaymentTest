@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>kg.angryelizar</groupId>
-    <artifactId>PaymentTest</artifactId>
+    <artifactId>project</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>PaymentTest</name>
     <description>PaymentTest</description>
